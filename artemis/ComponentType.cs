@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Artemis
 {
@@ -12,18 +13,21 @@ namespace Artemis
 
         /** The class type of the component type. */
         private readonly Type type;
-        private readonly TaxonomyType taxonomy;
+       // private readonly TaxonomyType taxonomy;
 
-        private bool packedHasWorldConstructor = false;
+       // private bool packedHasWorldConstructor = false;
 
         /** Ordinal for fast lookups. */
         private readonly int index;
+
+        public bool IsPoolable { get; private set; }
 
         public ComponentType(Type type, int index)
         {
 
             this.index = index;
             this.type = type;
+            this.IsPoolable = type.IsAssignableFrom(typeof(ComponentPoolable));
             /* TODO  if (ClassReflection.isAssignableFrom(PackedComponent.class, type)) {
                taxonomy = Taxonomy.PACKED;
                packedHasWorldConstructor = hasWorldConstructor(type);
@@ -63,7 +67,7 @@ namespace Artemis
             }
         }
 
-        public TaxonomyType Taxonomy
+    /*    public TaxonomyType Taxonomy
         {
             get
             {
@@ -74,10 +78,10 @@ namespace Artemis
         /**
          * @return {@code true} if of taxonomy packed.
          */
-        public bool IsPackedComponent()
+      /*  public bool IsPackedComponent()
         {
             return taxonomy == TaxonomyType.PACKED;
-        }
+        }*/
 
         /**
          * @return {@code Class} that this type represents.
@@ -92,8 +96,7 @@ namespace Artemis
 
         public override string ToString()
         {
-            //TODO return "ComponentType[" + ClassReflection.getSimpleName(type) + "] (" + index + ")";
-            return base.ToString();
+            return "ComponentType[" + type.Name + "] (" + index + ")";
         }
     }
 }

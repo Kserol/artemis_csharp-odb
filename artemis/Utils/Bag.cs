@@ -10,7 +10,7 @@ namespace Artemis.Utils
     public class Bag<T> : ImmutableBag<T>
     {
         /// <summary>The elements.</summary>
-        private T[] data;
+        internal T[] data;
         protected int size = 0;
 
         //Construct an empty bag, default capacity of 64
@@ -43,7 +43,7 @@ namespace Artemis.Utils
                 return data.Length;
             }
         }
-
+        
         /// <summary>Grows this instance.</summary>
         private void Grow()
         {
@@ -250,7 +250,16 @@ namespace Artemis.Utils
 
             return hash;
         }
+        public void Clear()
+        {
+            // Null all elements so garbage collector can clean up.
+            for (int index = this.size - 1; index >= 0; --index)
+            {
+                this.data[index] = default(T);
+            }
 
+            this.size = 0;
+        }
         /// <summary>Returns an enumerator that iterates through a collection.</summary>
         /// <returns>An <see cref="T:System.Collections.Generic.IEnumerator`1" /> object that can be used to iterate through the collection.</returns>
         IEnumerator<T> IEnumerable<T>.GetEnumerator()

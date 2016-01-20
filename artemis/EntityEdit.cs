@@ -6,7 +6,7 @@ namespace Artemis
     public sealed class EntityEdit 
     {
         private int entityId;
-        private ComponantManager cm;
+        private ComponentManager cm;
         private readonly BitSet componentBits;
 
         public BitSet ComponentBits
@@ -19,7 +19,7 @@ namespace Artemis
 
         public EntityEdit(World world)
         {
-            cm = world.GetComponentManager();
+            cm = world.ComponentManager;
             componentBits = new BitSet();
         }
 
@@ -29,7 +29,7 @@ namespace Artemis
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T Create<T>() where T :IComponent
+        public T Create<T>() where T :IComponent,new()
         {
             T component = cm.Create<T>(this.entityId);
             ComponentType componentType = cm.TypeFactory.GetTypeFor(typeof(T));
@@ -57,10 +57,10 @@ namespace Artemis
         /// <returns></returns>
         public EntityEdit Add(IComponent component, ComponentType type)
         {
-            if (type.Taxonomy != TaxonomyType.BASIC)
+            /*if (type.Taxonomy != TaxonomyType.BASIC)
             {
                 throw new InvalidOperationException("Use EntityEdit.Create<T>() for adding non-basic component types");
-            }
+            }*/
 
             cm.AddComponent(entityId, type, component);
             this.componentBits.Set(type.Index);

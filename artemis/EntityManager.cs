@@ -3,7 +3,7 @@ using Artemis.Utils;
 
 namespace Artemis
 {
-    public class EntityManager:BaseSystem
+    public class EntityManager:BaseSystem,ISubscriptionListener
     {
         private readonly Bag<Entity> entities;
         private RecyclingEntityFactory recyclingEntityFactory;
@@ -11,33 +11,27 @@ namespace Artemis
         private int highestSeenIdentity;
         private ComponentIdentityResolver identityResolver = new ComponentIdentityResolver();
 
-        protected EntityManager(int initialContainerSize)
+        public EntityManager(int initialContainerSize)
         {
             entities = new Bag<Entity>(initialContainerSize);
         }
         
         protected override void ProcessSystem() { }
         
-        protected override void Initialize()
+        public override void Initialize()
         {
-            /*
-		        recyclingEntityFactory = new RecyclingEntityFactory(this);
-		        world.getAspectSubscriptionManager()
-				        .get(all())
-				        .addSubscriptionListener(
-						        new EntitySubscription.SubscriptionListener() {
-							        @Override
-							        public void inserted(IntBag entities) {}
-
-							        @Override
-							        public void removed(IntBag entities) {
-								        deleted(entities);
-							        }
-						        });
-
-            */
+            recyclingEntityFactory = new RecyclingEntityFactory(this);
+            
+		        World.AspectSubscriptionManager
+				        .Get(Aspect.All())
+				        .AddSubscriptionListener(this);           
         }
 
+        internal  Bag<Entity> Entities
+        {
+            get { return this.entities;  }
+        }
+           
 
         /// <summary>
         /// Create new entity
@@ -54,7 +48,7 @@ namespace Artemis
         /// Create new entity
         /// </summary>
         /// <returns>Id</returns>
-        protected int create()
+        protected int Create()
         {
             int id = recyclingEntityFactory.Obtain().Id;
             entityToIdentity[id] = 0;
@@ -104,8 +98,7 @@ namespace Artemis
             int identity = identityResolver.GetIdentity(componentBits);
             if (identity > highestSeenIdentity)
             {
-                world.GetAspectSubscriptionManager()
-                        .ProcessComponentIdentity(identity, componentBits);
+                World.AspectSubscriptionManager.ProcessComponentIdentity(identity, componentBits);
                 highestSeenIdentity = identity;
             }
             return identity;
@@ -128,7 +121,7 @@ namespace Artemis
             }
         }
 
-        public bool isActive(int entityId)
+        public bool IsActive(int entityId)
         {
             return !recyclingEntityFactory.Has(entityId);
         }
@@ -138,7 +131,7 @@ namespace Artemis
             return entities[entityId];
         }
 
-        protected int GetIdentity(int entityId)
+        public int GetIdentity(int entityId)
         {
             int identity = entityToIdentity[entityId];
             if (identity == 0)
@@ -169,7 +162,7 @@ namespace Artemis
             for (int i = 0; i < entities.Size; i++)
             {
                 Entity e = entities[i];
-                if (e != null && isActive(i))
+                if (e != null && this.IsActive(i))
                     es.Check(e.Id);
             }
 
@@ -177,9 +170,19 @@ namespace Artemis
             es.RebuildCompressedActives();
         }
 
-        protected Entity CreateEntity(int id)
+        public Entity CreateEntity(int id)
         {
-            return new Entity(world, id);
+            return new Entity(World, id);
+        }
+
+        public void Removed(Bag<int> removed)
+        {
+            this.Deleted(removed);
+        }
+
+        public void Inserted(Bag<int> inserted)
+        {
+            
         }
 
         internal sealed class ComponentIdentityResolver

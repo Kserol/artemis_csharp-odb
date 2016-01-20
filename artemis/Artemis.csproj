@@ -108,22 +108,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Archetype.cs" />
+    <Compile Include="Aspect.cs" />
+    <Compile Include="AspectPromise.cs" />
+    <Compile Include="AspectSubscriptionManager.cs" />
     <Compile Include="BaseSystem.cs" />
-    <Compile Include="ComponantManager.cs" />
+    <Compile Include="CachedInjector.cs" />
+    <Compile Include="ComponentManager.cs" />
     <Compile Include="Component.cs" />
+    <Compile Include="ComponentPool.cs" />
     <Compile Include="ComponentType.cs" />
     <Compile Include="ComponentTypeFactory.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityEdit.cs" />
+    <Compile Include="EntityEditPool.cs" />
     <Compile Include="EntityManager.cs" />
     <Compile Include="EntitySubscription.cs" />
+    <Compile Include="Injector.cs" />
+    <Compile Include="InvocationStrategy.cs" />
+    <Compile Include="Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecyclingEntityFactory.cs" />
+    <Compile Include="ISubscriptionListener.cs" />
+    <Compile Include="SystemInvocationStrategy.cs" />
     <Compile Include="Utils\Bag.cs" />
     <Compile Include="Utils\BagEnumerator.cs" />
     <Compile Include="Utils\BitSet.cs" />
     <Compile Include="Utils\ImmutableBag.cs" />
     <Compile Include="World.cs" />
+    <Compile Include="WorldConfiguration.cs" />
     <EmbeddedResource Include="Properties\artemis.rd.xml" />
   </ItemGroup>
   <ItemGroup>

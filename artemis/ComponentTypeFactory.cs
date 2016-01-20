@@ -20,6 +20,14 @@ namespace Artemis
         /** Index of this component type in componentTypes. */
         private readonly Bag<ComponentType> types = new Bag<ComponentType>();
 
+        public Bag<ComponentType> Types
+        {
+            get
+            {
+                return types;
+            }
+        }
+
         public ComponentType GetTypeFor(Type component)
         {
             ComponentType result;
@@ -28,7 +36,7 @@ namespace Artemis
                 int index = componentTypeCount++;
                 result = new ComponentType(component, index);
                 componentTypes.Add(component, result);
-                types[index] = result;
+                Types[index] = result;
             }
 
             return result;
@@ -42,7 +50,7 @@ namespace Artemis
          */
         public ComponentType GetTypeFor(int index)
         {
-            return types[index];
+            return Types[index];
         }
 
         /**
@@ -58,7 +66,7 @@ namespace Artemis
             return GetTypeFor(c).Index;
         }
 
-        protected TaxonomyType GetTaxonomy(int index)
+       /* protected TaxonomyType GetTaxonomy(int index)
         {
             return types[index].Taxonomy;
         }
@@ -66,7 +74,7 @@ namespace Artemis
         protected bool IsPackedComponent(int index)
         {
             return types[index].IsPackedComponent();
-        }
+        }*/
 
 
     }

@@ -659,6 +659,27 @@ namespace Artemis.Utils
             Array.Copy(this.bits, newArray, this.bits.Length);
             return new BitSet(this.bits.Length, newArray);
         }
+
+        public Bag<int> ToIntBag()
+        {
+            Bag<int> result = new Bag<int>();
+            if (this.IsEmpty())
+            {
+                return result;
+            }
+
+            int size = this.Cardinality();
+            result.EnsureCapacity(size);
+
+            int[] activesArray = result.data;
+
+            for (int i = this.NextSetBit(0), index = 0; i >= 0; i = this.NextSetBit(i + 1))
+            {
+                activesArray[index++] = i;
+            }
+
+            return result;
+        }
     }
 }
 

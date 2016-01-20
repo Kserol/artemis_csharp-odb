@@ -6,8 +6,8 @@
     /// </summary>
     public abstract class BaseSystem
     {
-        protected World world;
-        bool enabled;
+        private World world;
+        private bool enabled;
 
         public BaseSystem() { }
 
@@ -51,12 +51,12 @@
         /// Useful for system occasionally needs to process
         /// </summary>
         /// <returns>return true if the system should be processed</returns>
-        protected virtual bool CheckProcessing()
+        public virtual bool CheckProcessing()
         {
             return true;
         }
 
-        protected virtual void Initialize()
+        public virtual void Initialize()
         {
 
         }
@@ -73,5 +73,17 @@
             }
         }
 
+        public  World World
+        {
+            get
+            {
+                return world;
+            }
+
+            set
+            {
+                world = value;
+            }
+        }
     }
 }
