@@ -5,9 +5,9 @@ namespace Artemis
 {
     public interface ISubscriptionListener
     {
-        void Removed(Bag<int> removed);
+        void OnRemoved(Bag<int> removed);
 
-         void Inserted(Bag<int> inserted);
+         void OnInserted(Bag<int> inserted);
 
     }
 }

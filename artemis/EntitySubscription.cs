@@ -143,10 +143,10 @@ namespace Artemis
             for (int i = 0, s = listeners.Size; s > i; i++)
             {
                 if (removed.Size > 0)
-                    listeners[i].Removed(removed);
+                    listeners[i].OnRemoved(removed);
 
                 if (inserted.Size > 0)
-                    listeners[i].Inserted(inserted);
+                    listeners[i].OnInserted(inserted);
             }
 
             inserted.Clear();

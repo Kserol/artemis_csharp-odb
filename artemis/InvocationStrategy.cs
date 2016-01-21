@@ -5,7 +5,7 @@ namespace Artemis
 {
     public class InvocationStrategy : SystemInvocationStrategy
     {
-        protected override void Process(Bag<BaseSystem> systems)
+        public override void Process(Bag<BaseSystem> systems)
         {
             foreach ( var s in systems )
             {

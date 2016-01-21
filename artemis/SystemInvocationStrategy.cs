@@ -9,7 +9,7 @@ namespace Artemis
         protected World world;
 
         /** World to operate on. */
-        protected World World
+        public World World
         {
             get
             {
@@ -31,6 +31,6 @@ namespace Artemis
         }
 
         /** Process all systems. */
-        protected abstract void Process(Bag<BaseSystem> systems);
+        public abstract void Process(Bag<BaseSystem> systems);
     }
 }

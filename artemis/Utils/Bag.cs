@@ -57,7 +57,7 @@ namespace Artemis.Utils
         {
             T[] oldElements = this.data;
             this.data = new T[newCapacity];
-            Array.Copy(oldElements, 0, this.data, 0, data.Length);
+            Array.Copy(oldElements, 0, this.data, 0, oldElements.Length);
         }
 
         /// <summary>Returns the element at the specified position in Bag.</summary>
@@ -74,7 +74,7 @@ namespace Artemis.Utils
             {
                 if (index >= this.data.Length)
                 {
-                    this.Grow(index * 2);
+                    this.Grow((index + 1) * 2);
                     this.size = index + 1;
                 }
                 else if (index >= this.size)
@@ -260,6 +260,12 @@ namespace Artemis.Utils
 
             this.size = 0;
         }
+
+        public void Zero()
+        {
+            this.size = 0;
+        }
+
         /// <summary>Returns an enumerator that iterates through a collection.</summary>
         /// <returns>An <see cref="T:System.Collections.Generic.IEnumerator`1" /> object that can be used to iterate through the collection.</returns>
         IEnumerator<T> IEnumerable<T>.GetEnumerator()

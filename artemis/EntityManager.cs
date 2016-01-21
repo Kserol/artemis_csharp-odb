@@ -37,7 +37,7 @@ namespace Artemis
         /// Create new entity
         /// </summary>
         /// <returns>Entity</returns>
-        protected Entity CreateEntityInstance()
+        internal Entity CreateEntityInstance()
         {
             Entity e = this.recyclingEntityFactory.Obtain();
             entityToIdentity[e.Id] =  0;
@@ -48,21 +48,21 @@ namespace Artemis
         /// Create new entity
         /// </summary>
         /// <returns>Id</returns>
-        protected int Create()
+        internal int Create()
         {
             int id = recyclingEntityFactory.Obtain().Id;
             entityToIdentity[id] = 0;
             return id;
         }
 
-        protected int Create(Archetype archetype)
+        internal int Create(Archetype archetype)
         {
             int id = recyclingEntityFactory.Obtain().Id;
             entityToIdentity[id] = archetype.CompositionId;
             return id;
         }
 
-        protected Entity CreateEntityInstance(Archetype archetype)
+        internal Entity CreateEntityInstance(Archetype archetype)
         {
             Entity e = CreateEntityInstance();
             entityToIdentity[e.Id] = archetype.CompositionId;
@@ -82,7 +82,7 @@ namespace Artemis
         /// Refresh entity composition identity if it changed.
         /// </summary>
         /// <param name="edit"></param>
-        private void UpdateCompositionIdentity(EntityEdit edit)
+        internal void UpdateCompositionIdentity(EntityEdit edit)
         {
             int identity = CompositionIdentity(edit.ComponentBits);
             entityToIdentity[edit.EntityId] = identity;
@@ -126,7 +126,7 @@ namespace Artemis
             return !recyclingEntityFactory.Has(entityId);
         }
 
-        protected Entity GetEntity(int entityId)
+        internal Entity GetEntity(int entityId)
         {
             return entities[entityId];
         }
@@ -175,12 +175,12 @@ namespace Artemis
             return new Entity(World, id);
         }
 
-        public void Removed(Bag<int> removed)
+        public void OnRemoved(Bag<int> removed)
         {
             this.Deleted(removed);
         }
 
-        public void Inserted(Bag<int> inserted)
+        public void OnInserted(Bag<int> inserted)
         {
             
         }
@@ -197,7 +197,7 @@ namespace Artemis
             public ComponentIdentityResolver()
             {
                 composition = new Bag<BitSet>();
-                composition.Add(null);
+                //composition.Add(null);
                 composition.Add(new BitSet());
             }
 

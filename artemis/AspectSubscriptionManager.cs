@@ -30,8 +30,7 @@ namespace Artemis
          */
         public EntitySubscription Get(AspectPromise builder)
         {
-            EntitySubscription subscription = subscriptionMap[builder];
-            return (subscription != null) ? subscription : this.CreateSubscription(builder);
+            return ( subscriptionMap.ContainsKey(builder) ) ? subscriptionMap[builder] : this.CreateSubscription(builder);
         }
 
         private EntitySubscription CreateSubscription(AspectPromise builder)

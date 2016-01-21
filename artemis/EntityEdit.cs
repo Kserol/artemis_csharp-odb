@@ -1,4 +1,5 @@
-﻿using Artemis.Utils;
+﻿using Artemis.Interface;
+using Artemis.Utils;
 using System;
 
 namespace Artemis
@@ -85,6 +86,10 @@ namespace Artemis
             get
             {
                 return entityId;
+            }
+            internal set
+            {
+                entityId = value;
             }
         }
 
